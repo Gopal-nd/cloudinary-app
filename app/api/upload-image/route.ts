@@ -4,11 +4,12 @@ import { ImageGallaryModel } from "@/lib/image.model";
 import { ConnectDB } from "@/lib/db.connection";
 
 ConnectDB();
-interface ImageData {
+interface ImageUploadData {
     secure_url: string;
     public_id: string;
     // Add other properties if necessary
 }
+
 
 export const GET = async (req:NextRequest,res:NextResponse)=>{
 const images = await ImageGallaryModel.find({})
@@ -24,10 +25,17 @@ export const POST = async (req: NextRequest, res: NextRequest) => {
     const image = formdata.get("image") as unknown as File;
     const data = await UploadImage(image, "next-Gallary");
 
-    await ImageGallaryModel.create({
-        image_url: data?.secure_url,
-        public_id: data?.public_id,
+    const imageData = data as { secure_url?: string; public_id?: string };
+
+    if (!imageData.secure_url || !imageData.public_id) {
+        throw new Error("Error uploading image: Image data is missing");
+    }
+
+    const newImage = await ImageGallaryModel.create({
+        image_url: imageData.secure_url,
+        public_id: imageData.public_id,
     });
+
 
     return NextResponse.json({ msg: data }, { status: 200 });
 };
