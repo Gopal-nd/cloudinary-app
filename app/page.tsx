@@ -22,6 +22,7 @@ const Home = () => {
     e.preventDefault();
     try {
       if (!image) {
+ 
         return;
       }
       const formData = new FormData();
@@ -76,9 +77,9 @@ const Home = () => {
 
   return (
     <>
-      <form onSubmit={onSubmitHandler} className='w-1/2 max-auto'>
+      <form onSubmit={onSubmitHandler} className=' flex flex-col gap-3 justify-center items-center m-10  max-auto'>
         <input onChange={onChangeHandler} type="file" />
-        <button className='px-4 py-2 '>Upload</button>
+        <button className='px-4 py-2 bg-blue-500 text-'>Upload</button>
       </form>
 
       <div className="px-10 flex flex-wrap gap-x-5">
