@@ -61,7 +61,7 @@ const Home = () => {
       const {images} = response.data
       console.log(images);
       setImages(images);
-    } catch (error) {
+    } catch (error:any) {
       console.log(error.message);
     }
   };
